@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Local
+import './providers/cart.dart';
+import './providers/products.dart';
+import './providers/orders.dart';
+import './screens/cart_screen.dart';
+import './screens/orders_screen.dart';
+import './screens/product_detail_screen.dart';
+import './screens/products_overview_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    // create is best used to display items that dont already exist
+    // or when you will be creating new items
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
+        ),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          canvasColor: Colors.teal[100],
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+              .copyWith(secondary: Colors.tealAccent[400]),
+          fontFamily: 'Lato',
+          primaryTextTheme: TextTheme(
+            headline1: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        home: ProductsOverviewScreen(),
+        routes: {
+          ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),
+          CartScreen.routeName: (ctx) => CartScreen(),
+          OrdersScreen.routeName: (ctx) => OrdersScreen(),
+        },
+      ),
+    );
+  }
+}
