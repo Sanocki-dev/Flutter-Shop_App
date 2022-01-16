@@ -41,8 +41,6 @@ class Products with ChangeNotifier {
     ),
   ];
 
-  // var _showFavoritesOnly = false;
-
   // Returns a copy of the items list so changes made to the list are only done in this file
   // to make the notifications possible
   List<Product> get items {
@@ -57,19 +55,32 @@ class Products with ChangeNotifier {
     return _items.where((element) => element.isFavorite).toList();
   }
 
-  // void showFavoritesOnly() {
-  //   _showFavoritesOnly = true;
-  //   notifyListeners();
-  // }
+  // Method to add items to the list
+  void addProduct(Product product) {
+    final newProduct = Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl);
 
-  // void showAll() {
-  //   _showFavoritesOnly = false;
-  //   notifyListeners();
-  // }
+    _items.add(newProduct);
+    notifyListeners();
+  }
 
   // Method to add items to the list
-  void addProduct(value) {
-    // _items.add(value);
+  void updateProduct(String id, Product product) {
+    final productIndex = _items.indexWhere((element) => element.id == id);
+
+    if (productIndex >= 0) {
+      _items[productIndex] = product;
+      notifyListeners();
+    }
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((element) => element.id == id);
+
     notifyListeners();
   }
 
