@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Local
+import '../widgets/loading_container.dart';
 import '../providers/products.dart';
 import '../widgets/product_item.dart';
 
 class ProductsGrid extends StatelessWidget {
   final bool showFavs;
+  final bool isLoading;
 
-  const ProductsGrid(this.showFavs, {Key? key}) : super(key: key);
+  const ProductsGrid(
+    this.showFavs,
+    this.isLoading, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class ProductsGrid extends StatelessWidget {
 
     return GridView.builder(
       padding: const EdgeInsets.all(10.0),
-      itemCount: products.length,
+      itemCount: isLoading ? 6 : products.length,
       // Defines how the grid is structured
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: screenSize <= 400 ? 2 : 2,
@@ -29,10 +35,14 @@ class ProductsGrid extends StatelessWidget {
         crossAxisSpacing: 10,
       ),
       // .value is best used to display items that already exist
-      itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
-        value: products[index],
-        child: ProductItem(),
-      ),
+      itemBuilder: isLoading
+          ? (ctx, index) => GridTile(
+                child: LoadingContainer(),
+              )
+          : (ctx, index) => ChangeNotifierProvider.value(
+                value: products[index],
+                child: ProductItem(),
+              ),
     );
   }
 }

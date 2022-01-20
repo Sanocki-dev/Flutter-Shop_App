@@ -85,12 +85,10 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _form.currentState!.validate();
 
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
 
     _form.currentState!.save();
 
@@ -99,9 +97,15 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
       _isLoading = true;
     });
 
+    // If the product has no id ie. is a new product
     if (_managedProduct.id == '') {
-      Provider.of<Products>(context, listen: false).addProduct(_managedProduct).catchError((error) {
-        return showDialog<Null>(
+      try {
+        await Provider.of<Products>(
+          context,
+          listen: false,
+        ).addProduct(_managedProduct);
+      } catch (error) {
+        await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
             title: Text("An error has occured!"),
@@ -116,21 +120,17 @@ class _ManageProductScreenState extends State<ManageProductScreen> {
             ],
           ),
         );
-      }).then(
-        (_) {
-          setState(() {
-            _isLoading = false;
-          });
-          Navigator.of(context).pop();
-        },
-      );
+      }
     } else {
-      Provider.of<Products>(context, listen: false).updateProduct(_managedProduct.id, _managedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
+      await Provider.of<Products>(
+        context,
+        listen: false,
+      ).updateProduct(_managedProduct.id, _managedProduct);
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override

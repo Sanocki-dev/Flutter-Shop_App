@@ -81,8 +81,7 @@ class CartItem extends StatelessWidget {
                   child: Text(
                     '\$$price',
                     style: TextStyle(
-                      color:
-                          Theme.of(context).primaryTextTheme.headline1?.color,
+                      color: Colors.white,
                     ),
                   ),
                 ),

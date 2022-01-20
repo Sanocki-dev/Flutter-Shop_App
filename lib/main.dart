@@ -39,12 +39,21 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           canvasColor: Colors.teal[100],
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
-              .copyWith(secondary: Colors.tealAccent[400]),
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.teal,
+            accentColor: Colors.white,
+          ).copyWith(
+            secondary: Colors.tealAccent[400],
+          ),
           fontFamily: 'Lato',
           primaryTextTheme: TextTheme(
             headline1: TextStyle(
-              color: Colors.white,
+              color: Colors.teal,
+            ),
+            headline2: TextStyle(
+              color: Colors.teal[800],
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),

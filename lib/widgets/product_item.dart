@@ -21,6 +21,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
     final product = Provider.of<Product>(context);
     final cart = Provider.of<Cart>(context, listen: false);
 
@@ -46,13 +47,20 @@ class ProductItem extends StatelessWidget {
           ),
           backgroundColor: Colors.black87,
           leading: IconButton(
-            icon: !product.isFavorite
-                ? Icon(Icons.favorite_border)
-                : Icon(Icons.favorite),
-            onPressed: product.toggleFavorite,
-            color: !product.isFavorite
-                ? Theme.of(context).colorScheme.secondary
-                : Colors.red,
+            icon: !product.isFavorite ? Icon(Icons.favorite_border) : Icon(Icons.favorite),
+            onPressed: () async {
+              try {
+                await product.toggleFavorite();
+              } catch (e) {
+                scaffold.hideCurrentSnackBar();
+                scaffold.showSnackBar(
+                  SnackBar(
+                    content: Text('Item could not be added to favorites!'),
+                  ),
+                );
+              }
+            },
+            color: !product.isFavorite ? Theme.of(context).colorScheme.secondary : Colors.red,
           ),
           trailing: IconButton(
             icon: Icon(Icons.shopping_cart),

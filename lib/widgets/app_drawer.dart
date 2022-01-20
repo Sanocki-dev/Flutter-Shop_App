@@ -18,28 +18,45 @@ class AppDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.shopping_bag),
-            title: Text('Shop'),
+            leading: Icon(
+              Icons.shopping_bag,
+              color: Theme.of(context).colorScheme.primaryVariant,
+            ),
+            title: Text(
+              'Shop',
+              style: Theme.of(context).primaryTextTheme.headline2,
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             },
+            selectedColor: Colors.amber,
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.payment),
-            title: Text('Orders'),
+            leading: Icon(
+              Icons.payment,
+              color: Theme.of(context).colorScheme.primaryVariant,
+            ),
+            title: Text(
+              'Orders',
+              style: Theme.of(context).primaryTextTheme.headline2,
+            ),
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(OrdersScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(OrdersScreen.routeName);
             },
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Manage Products'),
+            leading: Icon(
+              Icons.edit,
+              color: Theme.of(context).colorScheme.primaryVariant,
+            ),
+            title: Text(
+              'Manage Products',
+              style: Theme.of(context).primaryTextTheme.headline2,
+            ),
             onTap: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(UserProductsScreen.routeName);
+              Navigator.of(context).pushReplacementNamed(UserProductsScreen.routeName);
             },
           ),
         ],

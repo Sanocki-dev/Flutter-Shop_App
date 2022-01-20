@@ -38,10 +38,7 @@ class CartScreen extends StatelessWidget {
                   Chip(
                     label: Text(
                       '\$${cart.cartTotal.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        color:
-                            Theme.of(context).primaryTextTheme.headline1?.color,
-                      ),
+                      style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     elevation: 3,
@@ -56,8 +53,7 @@ class CartScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Order Now',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
                     ),
                   )
                 ],
