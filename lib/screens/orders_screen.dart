@@ -6,10 +6,31 @@ import '../widgets/app_drawer.dart';
 import '../widgets/order_item.dart';
 import '../providers/orders.dart' show Orders;
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   static const routeName = '/orders';
 
   const OrdersScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  /// Adding these two lines ensures that even if this widget is rebuilt
+  /// we are only doing 1 http call when it was initially created
+  /// ie if we change something unrelated in this widget we dont rerun the
+  /// http requests and waste time GOOD PRACTICE TO DO THIS!!!!!!!!!!!
+  Future? _ordersFuture;
+
+  Future _obtainOrdersFuture() {
+    return Provider.of<Orders>(context, listen: false).fetchOrders();
+  }
+
+  @override
+  void initState() {
+    _ordersFuture = _obtainOrdersFuture();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +39,7 @@ class OrdersScreen extends StatelessWidget {
         title: Text('Your Orders'),
       ),
       body: FutureBuilder(
-        future: Provider.of<Orders>(context, listen: false).fetchOrders(),
+        future: _ordersFuture,
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
