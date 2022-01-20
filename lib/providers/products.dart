@@ -27,7 +27,9 @@ class Products with ChangeNotifier {
     try {
       // POST request to the firebase server
       final response = await http.get(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final extractedData = json.decode(response.body) as Map<String, dynamic>?;
+      if (extractedData == null) return;
+
       final List<Product> loadedProducts = [];
 
       extractedData.forEach((id, product) {
